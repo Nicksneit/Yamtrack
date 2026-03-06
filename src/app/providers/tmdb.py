@@ -65,11 +65,10 @@ def get_external_links(external_ids, tmdb_id=None):
         # as they source their data from TMDB
         links["Letterboxd"] = f"https://www.letterboxd.com/tmdb/{tmdb_id}"
 
-    # Додаємо Kinobaza (пошук за назвою)
-    # Примітка: переконайтеся, що змінна з назвою фільму (наприклад, title) доступна у функції
-    if title:
-        encoded_title = title.replace(" ", "+")
-        links["Kinobaza"] = f"https://kinobaza.com.ua/search?query={encoded_title}"
+    # Додаємо Kinobaza (використовуємо IMDb ID для точності)
+    imdb_id = external_ids.get("imdb_id")
+    if imdb_id:
+        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{imdb_id}"
 
     return links
 
