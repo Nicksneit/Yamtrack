@@ -47,6 +47,8 @@ def get_external_links(external_ids, tmdb_id=None):
 
     if external_ids.get("imdb_id"):
         links["IMDb"] = f"https://www.imdb.com/title/{external_ids['imdb_id']}/"
+        # Додаємо Kinobaza через IMDb ID
+        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{imdb_id}"
 
     if external_ids.get("tvdb_id"):
         links["TVDB"] = (
@@ -64,11 +66,6 @@ def get_external_links(external_ids, tmdb_id=None):
         # Letterboxd will redirect to the correct movie
         # as they source their data from TMDB
         links["Letterboxd"] = f"https://www.letterboxd.com/tmdb/{tmdb_id}"
-
-    # Додаємо Kinobaza (використовуємо IMDb ID для точності)
-    imdb_id = external_ids.get("imdb_id")
-    if imdb_id:
-        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{imdb_id}"
 
     return links
 
