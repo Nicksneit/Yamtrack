@@ -41,14 +41,15 @@ def handle_error(error):
     )
 
 
-def get_external_links(external_ids, tmdb_id=None):
+def get_external_links(external_ids, tmdb_id=None, title=None):
     """Build external links dictionary from TMDB external_ids response."""
     links = {}
 
     if external_ids.get("imdb_id"):
         links["IMDb"] = f"https://www.imdb.com/title/{external_ids['imdb_id']}/"
-        # Додаємо Kinobaza через IMDb ID
-        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{external_ids['imdb_id']}"
+
+    if title:
+        links["Kinobaza"] = f"https://kinobaza.com.ua/search?q={title}"
 
     if external_ids.get("tvdb_id"):
         links["TVDB"] = (
@@ -241,6 +242,7 @@ def movie(media_id):
             "external_links": get_external_links(
                 response.get("external_ids", {}),
                 media_id
+                response["title"]
             ),
             "providers": response.get("watch/providers", {}).get("results", {}),
         }
