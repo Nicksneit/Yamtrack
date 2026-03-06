@@ -41,17 +41,12 @@ def handle_error(error):
     )
 
 
-from urllib.parse import quote
-
-def get_external_links(external_ids, tmdb_id=None, title=None):
+def get_external_links(external_ids, tmdb_id=None):
     """Build external links dictionary from TMDB external_ids response."""
     links = {}
 
     if external_ids.get("imdb_id"):
         links["IMDb"] = f"https://www.imdb.com/title/{external_ids['imdb_id']}/"
-
-    if title:
-        links["Kinobaza"] = f"https://kinobaza.com.ua/search?q={quote(title)}"
 
     if external_ids.get("tvdb_id"):
         links["TVDB"] = (
@@ -244,7 +239,6 @@ def movie(media_id):
             "external_links": get_external_links(
                 response.get("external_ids", {}),
                 media_id
-                response["title"]
             ),
             "providers": response.get("watch/providers", {}).get("results", {}),
         }
@@ -454,11 +448,7 @@ def process_tv(response):
             ),
         },
         "tvdb_id": response.get("external_ids", {}).get("tvdb_id"),
-        "external_links": get_external_links(
-    response.get("external_ids", {}),
-    None,
-    response["name"]
-),
+        "external_links": get_external_links(response.get("external_ids", {})),
         "last_episode_season": last_episode["season_number"] if last_episode else None,
         "next_episode_season": next_episode["season_number"] if next_episode else None,
         "providers": response.get("watch/providers", {}).get("results", {}),
