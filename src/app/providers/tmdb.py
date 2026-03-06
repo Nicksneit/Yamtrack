@@ -48,7 +48,7 @@ def get_external_links(external_ids, tmdb_id=None):
     if external_ids.get("imdb_id"):
         links["IMDb"] = f"https://www.imdb.com/title/{external_ids['imdb_id']}/"
         # Додаємо Kinobaza через IMDb ID
-        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{imdb_id}"
+        links["Kinobaza"] = f"https://kinobaza.com.ua/tt/{external_ids['imdb_id']}"
 
     if external_ids.get("tvdb_id"):
         links["TVDB"] = (
